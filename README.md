@@ -1,4 +1,4 @@
-<h1 style="text-align: center;">SynthScaffold</h1>
+<img src="./branding/logo_synthscaffold.svg" alt="SynthScaffold Logo" width="100%">
 <hr>
 
 **SynthScaffold** is a tool for synthesizing non-top-level functions to enable fast prototyping and debugging in high-level synthesis (HLS). It currently supports Vitis HLS and has been tested with Vitis HLS 2024.1.
