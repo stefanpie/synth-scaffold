@@ -5,9 +5,12 @@ description = "A tool to synthesis non-top-level functions for higher-level synt
 authors = [{ name = "Stefan Abi-Karam" }]
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = []
 
 
 [dependency-groups]
 dev = ["mypy>=1.15.0", "pytest>=8.3.4", "ruff>=0.9.4"]
+
+[tool.setuptools]
+packages = ["synth_scaffold"]
