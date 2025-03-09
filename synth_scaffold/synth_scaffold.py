@@ -443,6 +443,11 @@ class SynthScaffold:
         target_fn_pattern = build_regex_pattern_from_func(self, self.target_fn)
         for fp in self.input_source_files:
             source_txt = fp.read_text()
+            source_txt = "\n".join(
+                line
+                for line in source_txt.splitlines()
+                if not line.strip().startswith("//")
+            )
             match = target_fn_pattern.search(source_txt)
             if match:
                 target_fn_match = match
@@ -576,7 +581,7 @@ class SynthScaffold:
         tcl_script_txt += "\n\n"
         tcl_script_txt += f"set_directive_inline -off {self.target_fn}\n"
         tcl_script_txt += "\n\n"
-        tcl_script_txt += "csynth_design -dump_cfg -dump_post_cfg\n"
+        tcl_script_txt += "csynth_design\n"
         tcl_script_txt += "\n\n"
         tcl_script_txt += "exit\n"
 

@@ -16,7 +16,7 @@ if DIR_RUNS.exists():
     shutil.rmtree(DIR_RUNS)
 DIR_RUNS.mkdir()
 
-N_JOBS = 32
+N_JOBS = 38
 
 block_sizes_in = [1, 2, 4, 8, 16]
 block_sizes_out = [1, 2, 4, 8, 16]
@@ -26,7 +26,9 @@ design_sapce = []
 for in_size in block_sizes_in:
     for out_size in block_sizes_out:
         for data_type in data_types:
-            design_sapce.append((in_size, out_size, data_type))
+            combo = (in_size, out_size, data_type)
+            if combo not in design_sapce:
+                design_sapce.append(combo)
 
 
 def run_synth_scaffold(
