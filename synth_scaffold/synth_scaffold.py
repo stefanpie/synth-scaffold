@@ -65,7 +65,8 @@ def split_top_level(s: str) -> list[str]:
     return parts
 
 
-RE_ARG = re.compile(r"&?([A-Za-z_]\w*)\s*(?:\[|$)")
+# RE_ARG = re.compile(r"&?([A-Za-z_]\w*)\s*(?:\[|$)")
+RE_ARG = re.compile(r"&?([A-Za-z_]\w*)\s*(?:\[|=|$)")
 
 
 def extract_argument_name(arg_str: str) -> str:
@@ -399,6 +400,9 @@ class SynthScaffold:
         includes: list[str] = [],
         template_args: dict[str, str | int] = {},
         defines: dict[str, str] = {},
+        part: str = "xczu9eg-ffvb1156-2-e",
+        unsafe_math: bool = False,
+        clock_period: float = 5.0,
     ) -> None:
         self.target_fn = target_fn
         self.includes = includes
@@ -406,6 +410,10 @@ class SynthScaffold:
         self.output_dir = output_dir
         self.template_args = template_args
         self.defines = defines
+
+        self.part = part
+        self.unsafe_math = unsafe_math
+        self.clock_period = clock_period
 
         # check that all the source files exist
         for file in self.input_source_files:
@@ -559,8 +567,12 @@ class SynthScaffold:
         tcl_script_txt += "set_top scaffold_fn\n"
         tcl_script_txt += "\n\n"
         tcl_script_txt += 'open_solution -reset -flow_target vivado "solution_csynth"\n'
-        tcl_script_txt += "set_part {xczu9eg-ffvb1156-2-e}\n"
-        tcl_script_txt += "create_clock -period 5 -name default\n"
+        tcl_script_txt += f"set_part {{{self.part}}}\n"
+        tcl_script_txt += (
+            f"create_clock -period {self.clock_period} -name clk_default\n"
+        )
+        if self.unsafe_math:
+            tcl_script_txt += "config_compile -unsafe_math_optimizations\n"
         tcl_script_txt += "\n\n"
         tcl_script_txt += f"set_directive_inline -off {self.target_fn}\n"
         tcl_script_txt += "\n\n"
