@@ -463,6 +463,9 @@ class SynthScaffold:
         target_fn_ret_type = target_fn_match.group("ret_type").strip()
         if not target_fn_ret_type:
             raise ValueError("Could not find return type for target function")
+        if target_fn_ret_type != "void":
+            target_fn_ret_type = f"auto"
+        # target_fn_ret_type = "auto"
         target_fn_args = target_fn_match.group("args").strip()
         if not target_fn_args:
             raise ValueError("Could not find arguments for target function")
